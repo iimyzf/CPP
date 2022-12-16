@@ -5,16 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagnaou <yagnaou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 22:14:38 by yagnaou           #+#    #+#             */
-/*   Updated: 2022/11/29 15:08:26 by yagnaou          ###   ########.fr       */
+/*   Created: 2022/12/16 01:32:28 by yagnaou           #+#    #+#             */
+/*   Updated: 2022/12/16 01:32:28 by yagnaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
-#include <vector>
 
-int	main() {
-	Zombie	zombie;
-	zombie.announce();
-	return (0);
+int main() {
+    Zombie* zombie;
+
+    zombie = newZombie("Mamella");
+    zombie->announce();
+    randomChump("Lgerbouz");
+    delete zombie;
+    return (0);
 }
