@@ -11,8 +11,16 @@ int main(int argc, char *argv[])
 	PmergeMe	mergeMe;
 
 	for (int i = 1; i < argc; ++i) {
-		int val = std::stoi(argv[i]);
-		if (val < 0) {
+		try
+		{
+			int val = std::stoi(argv[i]);
+			if (val < 0) {
+				std::cerr << "Error" << std::endl;
+				return 1;
+			}
+		}
+		catch (std::exception &e)
+		{
 			std::cerr << "Error" << std::endl;
 			return 1;
 		}
