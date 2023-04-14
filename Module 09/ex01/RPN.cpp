@@ -24,10 +24,13 @@ int RPN::calculate(const std::string &expr)
 				{
 					if (_stack.size() < 2)
 						throw std::runtime_error("Not enough operands on the stack");
+					std::cout << "\nstack_top = " << _stack.top() << std::endl;
 					int op2 = _stack.top();
 					_stack.pop();
 					int op1 = _stack.top();
 					_stack.pop();
+
+					std::cout << "\nop1 = " << op1 << "\nop2 = " << op2 << "\ntoken = " << token << std::endl;
 
 					if (token == '+')
 						_stack.push(op1 + op2);
@@ -52,6 +55,7 @@ int RPN::calculate(const std::string &expr)
 			else
 			{
 				int operand = token - 48;
+				std::cout << "\noperand = " << operand << std::endl;
 				_stack.push(operand);
 			}
 		}
