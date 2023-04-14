@@ -13,14 +13,14 @@ std::string	BitcoinExchange::getDate(std::string date) {
 	{
 		if (isValid.find(date[i]) == std::string::npos) {
 			std::cout << "Error: bad date => " << date << std::endl;
-			return NULL;
+			return "";
 		}
 	}
 	return date;
 }
 
 float	BitcoinExchange::getValue(std::string value) {
-	std::string	isValid = "0123456789.,";
+	std::string	isValid = "0123456789.,-";
 	int	counterDot = count(value.begin(), value.end(), '.');
 	int	counterComma = count(value.begin(), value.end(), ',');
 
@@ -35,15 +35,33 @@ float	BitcoinExchange::getValue(std::string value) {
 	if (counterComma == 1)
 		std::replace(value.begin(), value.end(), ',', '.');
 
+	size_t pos = value.find(' ');
+	if (pos != std::string::npos) {
+		std::string input_value = value.substr(pos + 1);
+		if (input_value.find_first_not_of(isValid) != std::string::npos) {
+			std::cout << "Error: bad input => " << value << std::endl;
+			return -1;
+		}
+	}
+
 	float	number = 0;
 	try {
 		number = std::stof(value);
+		if (number < 0) {
+			std::cout << "Error: not a positive number." << std::endl;
+			return -1;
+		}
+		if (number > 1000.0) {
+			std::cout << "Error: too large a number." << std::endl;
+			return -1;
+		}
 	} catch (const std::exception& e) {
 		std::cout << "Error: bad input." << std::endl;
 		exit (1);
 	}
 	return number;
 }
+
 
 int	BitcoinExchange::checkDate(std::string date) {
 	std::stringstream ss(date);
@@ -58,23 +76,15 @@ int	BitcoinExchange::checkDate(std::string date) {
 		int month = std::stoi(monthStr);
 		int day = std::stoi(dayStr);
 
-		if (month < 1 || month > 12)
-		{
+		if (year < 2009 || year > 2022) {
 			std::cout << "Error: bad input => " << date << std::endl;
 			return 1;
 		}
-		if (day < 1 || day > 31)
-		{
-			std::cout << "Error: bad input1 => " << date << std::endl;
-			return 1;
-		}
-		if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31)
-		{
+		if (month < 1 || month > 12 || day < 1 || day > 31 || ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31)) {
 			std::cout << "Error: bad input => " << date << std::endl;
 			return 1;
 		}
-		if (month == 2)
-		{
+		if (month == 2) {
 			bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 			if (day > 29 || (day == 29 && !isLeapYear))
 			{
@@ -84,7 +94,6 @@ int	BitcoinExchange::checkDate(std::string date) {
 		}
 	}
 	catch (const std::exception &e) {
-		std::cout << "Error" << std::endl;
 		exit(1);
 	}
 	return 0;
@@ -108,14 +117,6 @@ void	BitcoinExchange::checkLine(std::string& line) {
 	}
 	if (value == -1)
 		return ;
-	if (value < 0) {
-		std::cout << "Error: not a positive number." << std::endl;
-		return ;
-	}
-	if (value > 1000.0) {
-		std::cout << "Error: too large a number." << std::endl;
-		return ;
-	}
 
 	int status = checkDate(date);
 	if (status != 1) {
