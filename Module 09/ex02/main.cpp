@@ -75,3 +75,4 @@ int main(int argc, char *argv[])
 	std::cout << "Time to process a range of " << mergeMe.getDeque().size() << " elements with std::deque  : " << std::fixed << std::setprecision(5) << elapsed1 << " us" << std::endl;
 	return 0;
 };
+
