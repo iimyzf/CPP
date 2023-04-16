@@ -1,6 +1,6 @@
 NAME		=	RPN
 
-FLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g3 
+FLAGS		=	-Wall -Werror -Wextra
 
 CPPFLAGS	=	-std=c++98
 
